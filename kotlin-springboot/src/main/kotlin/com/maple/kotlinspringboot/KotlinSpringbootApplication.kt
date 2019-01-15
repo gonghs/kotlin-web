@@ -6,7 +6,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-@EnableConfigurationProperties(value = [UserProperties::class])
 class KotlinSpringbootApplication
 
 fun main(args: Array<String>) {
