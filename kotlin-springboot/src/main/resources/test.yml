@@ -2,3 +2,5 @@ person:
   name: maple
   sex: man
   phone: 18111111111
+  children: {name: merry,sex: woman}
+  lists: 1,2
