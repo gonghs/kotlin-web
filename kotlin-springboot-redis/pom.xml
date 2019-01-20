@@ -20,6 +20,7 @@
         <aspectj.version>1.9.2</aspectj.version>
         <hessian.vesion>4.0.51</hessian.vesion>
         <fast-json.vesion>1.2.54</fast-json.vesion>
+        <redisson.version>3.10.0</redisson.version>
     </properties>
 
     <dependencies>
@@ -65,6 +66,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
         </dependency>
         <!-- serializable tool dependency -->
         <dependency>

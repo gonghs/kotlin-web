@@ -5,39 +5,37 @@ import com.maple.kotlinspringboot.entity.User
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.redis.core.RedisTemplate
 
 /**
  * TODO
  *
  * @author maple
- * @version V1.0
- * @since 2019-01-16 14:22
+ * @version 1.0
+ * @since 2019-01-20 18:08
  */
-class RedisTest : BaseTest() {
-
+class RedisUtilsTest : BaseTest() {
     private val log = LoggerFactory.getLogger(this.javaClass)
     private val testKey = this.javaClass.name
 
     @Autowired
-    lateinit var redisTemplate: RedisTemplate<String, Any>
+    lateinit var redisUtils: RedisUtils
 
     @Test
     fun testString() {
         log.info("---设置值---")
-        redisTemplate.opsForValue().set(testKey, "hello")
-        val str = redisTemplate.opsForValue().get(testKey) as? String
+        redisUtils.setAny(testKey, "hello")
+        val str = redisUtils.getT<String>(testKey)
         log.info("---打印值:$str---")
-        redisTemplate.delete(testKey)
+        redisUtils.delete(testKey)
     }
 
     @Test
-    fun testAny(){
-        val user = User("maple","man",18011111111)
+    fun testAny() {
+        val user = User("maple", "man", 18011111111)
         log.info("---设置对象---")
-        redisTemplate.opsForValue().set(testKey, user)
-        val testUser = redisTemplate.opsForValue().get(testKey) as? User
+        redisUtils.setAny(testKey, user)
+        val testUser = redisUtils.getT<User>(testKey)
         log.info("---打印值:$testUser---")
-        redisTemplate.delete(testKey)
+        redisUtils.delete(testKey)
     }
 }

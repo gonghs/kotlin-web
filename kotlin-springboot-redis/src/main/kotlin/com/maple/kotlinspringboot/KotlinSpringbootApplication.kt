@@ -1,6 +1,5 @@
 package com.maple.kotlinspringboot
 
-import com.maple.kotlinspringboot.properties.UserProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 

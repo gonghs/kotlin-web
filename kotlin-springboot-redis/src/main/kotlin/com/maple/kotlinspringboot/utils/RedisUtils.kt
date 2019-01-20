@@ -31,6 +31,7 @@ class RedisUtils {
 
     /**
      * 获取long值
+     * kotlin String类型的数字不可以以Long或Int的形式get出来因此单独处理
      *
      * @param key 键
      * @return any 值对象

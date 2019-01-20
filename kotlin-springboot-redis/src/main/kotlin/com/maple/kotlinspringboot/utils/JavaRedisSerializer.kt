@@ -1,6 +1,5 @@
 package com.maple.kotlinspringboot.utils
 
-import com.alibaba.fastjson.JSON
 import org.springframework.data.redis.serializer.RedisSerializer
 
 /**

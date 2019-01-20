@@ -3,11 +3,8 @@ package com.maple.kotlinspringboot.controller
 import com.maple.kotlinspringboot.annotation.CurrentUser
 import com.maple.kotlinspringboot.annotation.TestAnnotation
 import com.maple.kotlinspringboot.entity.User
-import com.maple.kotlinspringboot.properties.UserProperties
-import com.sun.xml.internal.fastinfoset.util.StringArray
+import com.maple.kotlinspringboot.utils.RedisUtils
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -21,28 +18,17 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HelloController {
-
-    @Value("\${person.name}")
-    private lateinit var username:String
-    @Value("\${person.sex}")
-    private lateinit var sex:String
-//    @Value("\${person.children}")
-//    private lateinit var children:Map<String,String>
-    @Value("\${person.lists}")
-    private lateinit var lists: List<String>
-
     @Autowired
-    private lateinit var userProperties:UserProperties
+    lateinit var redisUtils: RedisUtils
 
     @GetMapping("/hello")
-    @TestAnnotation
     fun hello(@CurrentUser user:User): String {
         return user.toString()
     }
 
-    @GetMapping("/test")
-    @TestAnnotation
-    fun test(@CurrentUser user:User): String {
-        return userProperties.toString()
+    @GetMapping("/testLogin")
+    fun testLogin(user:User): String {
+        redisUtils.setAny("currentUser",user)
+        return "success"
     }
 }
