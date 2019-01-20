@@ -2,7 +2,6 @@ package com.maple.kotlinspringboot.config
 
 import com.maple.kotlinspringboot.annotation.CurrentUser
 import com.maple.kotlinspringboot.entity.User
-import org.springframework.context.annotation.Bean
 import org.springframework.core.MethodParameter
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
