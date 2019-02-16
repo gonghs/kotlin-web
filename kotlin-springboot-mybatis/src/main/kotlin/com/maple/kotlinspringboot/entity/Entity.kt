@@ -1,9 +1,8 @@
 package com.maple.kotlinspringboot.entity
 
-import java.io.Serializable
 
 /**
- * TODO
+ * 实体类
  *
  * @author maple
  * @version V1.0
@@ -11,16 +10,5 @@ import java.io.Serializable
  */
 
 data class User(val username:String, val sex:String,val phone:Long)
-class TestUser(){
-    lateinit var username:String
-    lateinit var sex:String
-    private var phone = 0L
-    constructor(username:String, sex:String, phone:Long):this(){
-        this.username = username
-        this.sex = sex
-        this.phone = phone
-    }
-    override fun toString():String {
-        return "username:$username,sex:$sex,phone:$phone"
-    }
-}
+
+data class DbUser(val id:Long,val userId:String,val username:String,val password:String,val test:String)

@@ -7,3 +7,12 @@ spring:
     host: 127.0.0.1
     port: 6379
     timeout: 1000ms
+  datasource:
+    url: jdbc:mysql://localhost:3306/myblog?characterEncoding=utf8&useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: maple
+    password: maple
+    dbcp2:
+      max-idle: 10
+      max-wait-millis: 10000
+      initial-size: 5
