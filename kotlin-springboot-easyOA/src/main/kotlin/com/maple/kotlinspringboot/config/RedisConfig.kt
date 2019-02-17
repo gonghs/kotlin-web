@@ -3,9 +3,6 @@ package com.maple.kotlinspringboot.config
 
 import com.alibaba.fastjson.parser.ParserConfig
 import com.maple.kotlinspringboot.utils.FastJsonRedisSerializer
-import org.redisson.Redisson
-import org.redisson.api.RedissonClient
-import org.redisson.config.Config
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties
 import org.springframework.context.annotation.Bean
@@ -50,19 +47,5 @@ class RedisConfig{
         template.hashValueSerializer = fastJsonRedisSerializer
         template.afterPropertiesSet()
         return template
-    }
-
-    /**
-     * 哨兵模式自动装配
-     *
-     * @return redis客户端
-     */
-    @Bean
-    fun redisClient(): RedissonClient {
-        val serverConfig = Config().apply {
-            this.useSingleServer()
-                    .setAddress("redis://${redisProperties.host}:${redisProperties.port}").timeout = (redisProperties.timeout.seconds * 1000).toInt()
-        }
-        return Redisson.create(serverConfig)
     }
 }

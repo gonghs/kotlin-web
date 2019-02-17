@@ -1,8 +1,7 @@
 package com.maple.kotlinspringboot.controller
 
 import com.maple.kotlinspringboot.annotation.CurrentUser
-import com.maple.kotlinspringboot.annotation.TestAnnotation
-import com.maple.kotlinspringboot.entity.User
+import com.maple.kotlinspringboot.entity.SysUser
 import com.maple.kotlinspringboot.utils.RedisUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,12 +21,12 @@ class HelloController {
     lateinit var redisUtils: RedisUtils
 
     @GetMapping("/hello")
-    fun hello(@CurrentUser user:User): String {
+    fun hello(@CurrentUser user:SysUser): String {
         return user.toString()
     }
 
     @GetMapping("/testLogin")
-    fun testLogin(user:User): String {
+    fun testLogin(user:SysUser): String {
         redisUtils.setAny("currentUser",user)
         return "success"
     }

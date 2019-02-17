@@ -1,5 +1,7 @@
 package com.maple.kotlinspringboot.entity
 
+import java.io.Serializable
+
 
 /**
  * 实体类
@@ -8,7 +10,13 @@ package com.maple.kotlinspringboot.entity
  * @version V1.0
  * @since 2019-01-16 09:48
  */
+data class SysUser(var id: Long, var name: String,var account:String, var password: String): Serializable {
+    constructor(account: String,password: String):this(0,"",account,password)
+    var roles: MutableList<SysRole> = mutableListOf()
+}
 
-data class User(val username:String, val sex:String,val phone:Long)
+data class SysRole(var id: Long, var name: String) {
+    var permissions: MutableList<SysPermission> = mutableListOf()
+}
 
-data class DbUser(val id:Long,val userId:String,val username:String,val password:String,val test:String)
+data class SysPermission(var id: Long, var name: String, var url: String): Serializable

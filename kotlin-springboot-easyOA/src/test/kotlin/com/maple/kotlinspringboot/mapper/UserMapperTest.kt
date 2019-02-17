@@ -20,7 +20,7 @@ class UserMapperTest : BaseTest() {
 
 
     @Test
-    fun testGetUser() {
-        userMapper.getUser().forEach { log.info(it.toString()) }
+    fun testFindByName() {
+        println(userMapper.findByName("admin"))
     }
 }

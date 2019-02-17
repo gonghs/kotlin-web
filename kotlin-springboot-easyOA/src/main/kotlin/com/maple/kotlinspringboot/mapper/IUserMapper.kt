@@ -1,6 +1,6 @@
 package com.maple.kotlinspringboot.mapper
 
-import com.maple.kotlinspringboot.entity.DbUser
+import com.maple.kotlinspringboot.entity.SysUser
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Select
 
@@ -13,6 +13,7 @@ import org.apache.ibatis.annotations.Select
  */
 @Mapper
 interface IUserMapper {
-    @Select("select id,user_id userId,username,password,test from user")
-    fun getUser(): List<DbUser>
+
+    @Select("select t.id,t.name,t.account,t.password from sys_user t where t.name = #{name}")
+    fun findByName(name: String):SysUser?
 }

@@ -1,7 +1,7 @@
 package com.maple.kotlinspringboot.utils
 
 import com.maple.kotlinspringboot.BaseTest
-import com.maple.kotlinspringboot.entity.User
+import com.maple.kotlinspringboot.entity.SysUser
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,11 +33,6 @@ class RedisTest : BaseTest() {
 
     @Test
     fun testAny(){
-        val user = User("maple","man",18011111111)
-        log.info("---设置对象---")
-        redisTemplate.opsForValue().set(testKey, user)
-        val testUser = redisTemplate.opsForValue().get(testKey) as? User
-        log.info("---打印值:$testUser---")
-        redisTemplate.delete(testKey)
+
     }
 }
