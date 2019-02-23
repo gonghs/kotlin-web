@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component
 @Component
 class MyShiroRealm : AuthorizingRealm() {
 
-    @Autowired
+    @Autowired(required = false)
     private lateinit var userMapper: IUserMapper
 
     /**

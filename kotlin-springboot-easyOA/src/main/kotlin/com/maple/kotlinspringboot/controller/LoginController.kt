@@ -1,5 +1,6 @@
 package com.maple.kotlinspringboot.controller
 
+import com.maple.kotlinspringboot.annotation.CurrentUser
 import com.maple.kotlinspringboot.entity.SysUser
 import com.maple.kotlinspringboot.service.IUserService
 import org.apache.shiro.SecurityUtils
@@ -43,13 +44,16 @@ class LoginController {
     }
 
     @RequestMapping("/index")
-    fun index(): String {
+    fun index(@CurrentUser sysUser: SysUser,request:HttpServletRequest): String {
+        request.setAttribute("username",sysUser.name)
         return "index"
     }
 
-    @RequestMapping("logout")
+    @RequestMapping("/logout")
     fun logout(): String {
-        return "logout"
+        // 使用权限管理工具进行用户的退出，注销登录
+        SecurityUtils.getSubject().logout()
+        return "redirect:login"
     }
 
     @PostMapping("/error")

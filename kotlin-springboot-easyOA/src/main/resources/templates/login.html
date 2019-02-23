@@ -58,12 +58,12 @@
         </div>
     </form>
 </div>
-<div th:text="${error}" id="errorMsg"></div>
-<script th:src="@{js/common/jquery/jquery-1.8.3.js}"></script>
-<script th:src="@{js/common/layer/layer.js}"></script>
+<div th:text="${error}" id="errorMsg" style="display: none"></div>
+<script th:src="@{common/jquery/jquery.js}"></script>
+<script th:src="@{common/layer/layer.js}"></script>
 <!--[if lt IE 9]>
-<script th:src="@{js/common/jquery/ie/html5shiv.js}"></script>
-<script th:src="@{js/common/jquery/ie/respond.min.js}"></script>
+<script th:src="@{common/jquery/ie/html5shiv.js}"></script>
+<script th:src="@{common/jquery/ie/respond.min.js}"></script>
 <![endif]-->
 <script>
     if ($('#errorMsg').text()){
