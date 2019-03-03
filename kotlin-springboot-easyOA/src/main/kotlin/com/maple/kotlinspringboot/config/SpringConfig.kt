@@ -26,7 +26,7 @@ class SpringConfig : WebMvcConfigurer {
     lateinit var currentUserResolver: CurrentUserMethodArgumentResolver
 
     override fun addViewControllers(registry: ViewControllerRegistry) {
-        registry.addViewController("/").setViewName("forward:/hello")
+        registry.addViewController("/").setViewName("forward:/login")
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE)
     }
 //

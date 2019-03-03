@@ -18,3 +18,9 @@ spring:
       initial-size: 5
   thymeleaf:
     cache: false
+
+upload.config:
+  access-key: LTAI3BgnigRNhPg6
+  secret-key: kGSpUfEV90oydgklmkwJtWTnlVL1eE
+  oss-end-point: oss-cn-hangzhou.aliyuncs.com
+  bucket: ice-maple

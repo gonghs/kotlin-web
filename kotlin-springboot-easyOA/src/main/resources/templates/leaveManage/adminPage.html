@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{common/base-css.html::htmlhead}"></div>
+    <link rel="stylesheet" th:href="@{css/model/index/index.css}">
+    <title>请假管理管理员页面</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="vueDiv">
+    <el-table :data="tableData" max-height="500">
+        <el-table-column prop="date" label="日期" width="140">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="120">
+        </el-table-column>
+        <el-table-column prop="address" label="地址">
+        </el-table-column>
+    </el-table>
+</div>
+
+
+<div th:replace="/common/base-js.html::javascriptHtml"></div>
+<script type="text/javascript">
+    let vueDiv = new Vue({
+        el: '#vueDiv',
+        data() {
+
+        },
+        methods: {
+
+        },
+        mounted:function () {
+
+        }
+    });
+    function setIFrameHeight(iframe) {
+        if (iframe) {
+            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+            if (iframeWin.document.body) {
+                iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+            }
+        }
+    };
+
+    window.onload = function () {
+        setIFrameHeight(document.getElementById('external-frame'));
+    };
+
+</script>
+</body>
+</html>

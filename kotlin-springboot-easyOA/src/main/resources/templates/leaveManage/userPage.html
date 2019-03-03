@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="~{common/base-css.html::htmlhead}"></div>
+    <link rel="stylesheet" th:href="@{css/model/index/index.css}">
+    <title>请假管理用户页面</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="vueDiv">
+    <el-button type="primary" @click="add">请假单申请</el-button>
+    <el-table :data="tableData" max-height="500">
+        <el-table-column prop="userName" label="发起人" sortable></el-table-column>
+        <el-table-column prop="typeStr" label="请假类型" sortable></el-table-column>
+        <el-table-column prop="leaveTime" label="请假时间" width="400" sortable></el-table-column>
+        <el-table-column prop="reason" label="请假事由" sortable show-overflow-tooltip></el-table-column>
+        <el-table-column prop="statusStr" label="审批状态" sortable></el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button v-if="scope.row.status === '1'"
+                           size="mini"
+                           @click="submit(scope.$index, scope.row)">提交
+                </el-button>
+                <el-button v-if="scope.row.status === '2'"
+                           size="mini"
+                           type="danger"
+                           @click="recall(scope.$index, scope.row)">撤回
+                </el-button>
+                <el-button v-if="scope.row.status === '1'"
+                           size="mini"
+                           @click="edit(scope.$index, scope.row)">编辑
+                </el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <el-dialog :title="applyPageTitle" :visible.sync="applyPageVisible">
+        <el-form :model="form" :rules="checkRules" ref="applyForm">
+            <el-form-item label="请假类型" :label-width="formLabelWidth" prop="type">
+                <el-select v-model="form.type" placeholder="请选择">
+                    <el-option key="1" label="事假" value="1"></el-option>
+                    <el-option key="2" label="病假" value="2"></el-option>
+                    <el-option key="3" label="年假" value="3"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="请假时间" :label-width="formLabelWidth" prop="leaveTime">
+                <el-date-picker
+                        v-model="form.leaveTime"
+                        type="datetimerange"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="请假事由" :label-width="formLabelWidth" prop="reason">
+                <el-input
+                        type="textarea"
+                        :rows="3"
+                        placeholder="请输入内容"
+                        v-model="form.reason">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="相关附件" :label-width="formLabelWidth">
+                <el-upload
+                        class="upload-demo"
+                        action="/uploadFile"
+                        multiple
+                        :on-success="uploadSuccess"
+                        :limit="3"
+                        :file-list="form.fileList">
+                    <el-button size="small" type="primary">点击上传</el-button>
+                    <div slot="tip" class="el-upload__tip" style="color:red">注意: 病假必须上传附件!</div>
+                </el-upload>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="applyPageVisible = false">取 消</el-button>
+            <el-button type="primary" @click="saveForm">保存</el-button>
+            <el-button type="primary" @click="submitForm">保存并提交</el-button>
+        </div>
+    </el-dialog>
+</div>
+
+
+<div th:replace="~{common/base-js.html::javascriptHtml}"></div>
+<script type="text/javascript">
+
+    let vueDiv = new Vue({
+        el: '#vueDiv',
+        data() {
+            let checkDateRange = function (rule, value, callback) {
+                if (!value instanceof Array || value.length !== 2) {
+                    callback(new Error("请选择时间"));
+                } else {
+                    callback();
+                }
+            };
+            return {
+                tableData: [],
+                applyPageVisible: false,
+                applyPageTitle: '',
+                form: {
+                    id: '',
+                    type: '',
+                    leaveTimeStart: '',
+                    leaveTimeEnd: '',
+                    reason: '',
+                    fileList: [],
+                    leaveTime: []
+                },
+                formLabelWidth: '120px',
+                checkRules: {
+                    type: [
+                        {required: true, message: '请选择请假类型', trigger: 'change'}
+                    ],
+                    reason: [
+                        {required: true, message: '请填写请假事由', trigger: 'blur'}
+                    ],
+                    leaveTime: [
+                        {
+                            required: true, message: '请填写日期', trigger: 'blur', validator: checkDateRange,
+                        }
+                    ]
+                }
+            }
+        },
+        methods: {
+            uploadSuccess: function (resp, file, fileList) {
+                console.log(this.form.fileList);
+                file.url = resp.data.pathWithDir;
+            },
+            edit: function (index, row) {
+                this.form.id = row.id;
+                this.form.type = row.type;
+                this.form.leaveTime = [row.leaveTimeStart, row.leaveTimeEnd];
+                this.form.reason = row.reason;
+                this.form.attach = row.attach;
+                this.applyPageTitle = '编辑审批单';
+                this.applyPageVisible = true;
+            },
+            add: function () {
+                this.form.id = '';
+                this.applyPageTitle = '申请审批单';
+                this.applyPageVisible = true;
+            },
+            submit: function (index, row) {
+                let _self = this;
+                axios.get("/submitLeaveApplication?id=" + row.id
+                ).then(function (resp) {
+                    _self.getTipAndRefresh(resp, "提交")
+                })
+            },
+            recall: function (index, row) {
+                let _self = this;
+                this.$confirm('此操作将撤回审批单,确认撤回?', '警告', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get("/recallLeaveApplication?id=" + row.id
+                    ).then(function (resp) {
+                        _self.getTipAndRefresh(resp, "撤回")
+                    })
+                })
+            },
+            saveForm: function () {
+                let _self = this;
+                this.$refs['applyForm'].validate(function (valid) {
+                    if (valid) {
+                        if (_self.form.type === '2' && _self.form.fileList.length === 0) {
+                            _self.$message.error('选择病假时,附件必须上传w(ﾟДﾟ)w');
+                            debugger;
+                            return false;
+                        }
+                        axios.post("/saveOrUpdateLeaveManage", _self.getSubmitData()).then(function (resp) {
+                            _self.getTipAndRefresh(resp, "保存")
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            submitForm: function () {
+                let _self = this;
+                this.$refs['applyForm'].validate(function (valid) {
+                    if (valid) {
+                        if (_self.form.type === '2' && _self.form.fileList.length === 0) {
+                            _self.$message.error('选择病假时,附件必须上传w(ﾟДﾟ)w');
+                            return false;
+                        }
+                        axios.post("/saveOrUpdateAndSubmitLeaveManage", _self.getSubmitData()).then(function (resp) {
+                            _self.getTipAndRefresh(resp, "提交")
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            getSubmitData: function () {
+                let formData = JSON.parse(JSON.stringify(this.form));
+                let attachList = formData.fileList.map(function (item) {
+                    let obj = {};
+                    obj.name = item.name;
+                    obj.url = item.url;
+                    return obj;
+                });
+                JSON.stringify(attachList);
+                formData.attach = JSON.stringify(attachList);
+                formData.leaveTimeStart = formData.leaveTime[0];
+                formData.leaveTimeEnd = formData.leaveTime[1];
+                formData.leaveTime = "";
+                return formData;
+            },
+            getTipAndRefresh: function (resp, msg) {
+                let data = resp.data;
+                if (data.success) {
+                    this.$message({
+                        message: msg + '成功了',
+                        type: 'success'
+                    });
+                    this.refreshData();
+                    if (this.applyPageVisible) {
+                        this.applyPageVisible = false;
+                    }
+                } else {
+                    this.$message.error('啊偶，' + msg + '失败了w(ﾟДﾟ)w');
+                }
+            },
+            refreshData: function () {
+                let _self = this;
+                axios.post("/queryLeaveManageList").then(function (req) {
+                    if (req.data) {
+                        _self.tableData = req.data;
+                    }
+                })
+            }
+        },
+        mounted: function () {
+            this.refreshData()
+        }
+    });
+
+    function setIFrameHeight(iframe) {
+        if (iframe) {
+            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+            if (iframeWin.document.body) {
+                iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+            }
+        }
+    };
+
+    window.onload = function () {
+        setIFrameHeight(document.getElementById('external-frame'));
+    };
+</script>
+</body>
+</html>

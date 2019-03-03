@@ -16,7 +16,7 @@ data class SysUser(var id: Long, var name: String,var account:String, var passwo
 }
 
 data class SysRole(var id: Long, var name: String) {
-    var permissions: MutableList<SysPermission> = mutableListOf()
+    var permissions: MutableList<SysMenu> = mutableListOf()
 }
 
-data class SysPermission(var id: Long, var name: String, var url: String): Serializable
+data class SysMenu(var id: Long, var name: String, var url: String): Serializable
