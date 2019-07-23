@@ -1,6 +1,6 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
-
+.gradle
 ### STS ###
 .apt_generated
 .classpath
@@ -22,6 +22,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+out/
 
 # Log
 LOG_PATH_IS_UNDEFINED
