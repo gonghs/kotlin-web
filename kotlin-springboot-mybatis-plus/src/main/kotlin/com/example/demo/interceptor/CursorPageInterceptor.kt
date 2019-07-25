@@ -64,7 +64,6 @@ class CursorPageInterceptor : Interceptor, AbstractSqlParserHandler() {
         }
         if (null == cursorPageQuery || cursorPageQuery.pageSize < 0)
             return invocation.proceed()
-        val cacheKey: CacheKey
         val boundSql: BoundSql
         boundSql = if (args.size == 4) {
             mappedStatement.getBoundSql(paramObj)
@@ -73,7 +72,7 @@ class CursorPageInterceptor : Interceptor, AbstractSqlParserHandler() {
         }
         boundSql.setAdditionalParameter("pageCursor", cursorPageQuery.pageCursor)
         boundSql.setAdditionalParameter("pageSize", cursorPageQuery.pageSize + 1)
-        cacheKey = executor.createCacheKey(mappedStatement, paramObj, rowBounds, boundSql)
+        val cacheKey = executor.createCacheKey(mappedStatement, paramObj, rowBounds, boundSql)
         val method = getMethod(mappedStatement)
         val execResult = executor.query<Any>(mappedStatement, paramObj, rowBounds, resultHandler, cacheKey, boundSql)
         if (method.returnType.name === List::class.java.name) {
