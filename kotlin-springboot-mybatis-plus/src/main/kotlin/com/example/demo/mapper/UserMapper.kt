@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Select
  */
 @Mapper
 interface UserMapper : BaseMapper<UserBO> {
-    @Select("select id from user where id > #{pageCursor} limit #{pageSize}")
-    @com.example.demo.anno.CursorPageMapper("id")
+    @Select("select id,user_id userId from user where user_id > #{pageCursor} limit #{pageSize}")
+    @com.example.demo.anno.CursorPageMapper("userId")
     fun getUsers(page: CursorPageQuery, userId: String): CursorPage<UserBO>
 }
