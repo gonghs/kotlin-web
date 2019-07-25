@@ -12,12 +12,13 @@ version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    jcenter()
     maven (url = "http://maven.aliyun.com/nexus/content/groups/public/")
+    jcenter()
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("com.baomidou:mybatis-plus-boot-starter:3.1.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     runtimeOnly("mysql:mysql-connector-java")
