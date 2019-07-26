@@ -13,7 +13,6 @@ import org.apache.ibatis.mapping.MappedStatement
 import org.apache.ibatis.plugin.*
 import org.apache.ibatis.session.ResultHandler
 import org.apache.ibatis.session.RowBounds
-import org.springframework.cglib.core.ReflectUtils
 import org.springframework.util.ReflectionUtils
 import java.lang.reflect.Field
 import java.lang.reflect.Method
@@ -92,7 +91,7 @@ class CursorPageInterceptor : Interceptor, AbstractSqlParserHandler() {
             val pageCursorField = ReflectionUtils.findField(type.actualTypeArguments[0] as Class<*>, pageCursorFieldName)
             pageCursorField ?: throw BindingException("return class can not find pageCursorField")
             val nextCursor = getNextCursor(execResult, pageCursorField, hasNext, cursorPageQuery.pageSize).orEmpty()
-            return CursorPage(cursorPageQuery.pageCursor, cursorPageQuery.pageSize, nextCursor, hasNext, if (hasNext) execResult.subList(0, cursorPageQuery.pageSize) else execResult)
+            return listOf(CursorPage(cursorPageQuery.pageCursor, cursorPageQuery.pageSize, nextCursor, hasNext, if (hasNext) execResult.subList(0, cursorPageQuery.pageSize) else execResult))
         }
         return execResult
     }

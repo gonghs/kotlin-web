@@ -21,6 +21,7 @@ dependencies {
     implementation("com.baomidou:mybatis-plus-boot-starter:3.1.2")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.alibaba:fastjson:1.2.54")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor
 import com.example.demo.interceptor.CursorPageInterceptor
 import com.example.demo.interceptor.CursorPageInterceptor2
 import com.example.demo.interceptor.CursorPageInterceptor3
+import com.example.demo.interceptor.CursorPageInterceptor4
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -27,13 +28,13 @@ class MybatisPlusConfig {
         return page
     }
 
+    @Bean
+    fun cursorPageInterceptor2(): CursorPageInterceptor2 {
+        return CursorPageInterceptor2()
+    }
 //    @Bean
-//    fun cursorPageInterceptor2(): CursorPageInterceptor2 {
-//        return CursorPageInterceptor2()
-//    }
-//    @Bean
-//    fun cursorPageInterceptor3(): CursorPageInterceptor3 {
-//        return CursorPageInterceptor3()
+//    fun cursorPageInterceptor4(): CursorPageInterceptor4 {
+//        return CursorPageInterceptor4()
 //    }
     @Bean
     fun cursorPageInterceptor(): CursorPageInterceptor {

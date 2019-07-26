@@ -38,56 +38,11 @@ data class CursorPageQuery(var pageCursor: String, var pageSize: Int = 10) : Ser
     }
 }
 
-data class CursorPage<T>(val pageCursor: String, val pageSize: Int, val nextCursor: String, val hasNext: Boolean, override val results: List<T>) : Serializable, PageList<T>(pageSize, results) {
+data class CursorPage<T>(val pageCursor: String, val pageSize: Int, val nextCursor: String, val hasNext: Boolean, val results: List<T>) : Serializable {
     fun <S> map(converter: Function<in T, out S>): CursorPage<S> {
         val converterList = results.map { converter.apply(it) }
         return CursorPage(pageCursor, pageSize, nextCursor, hasNext, converterList)
     }
-}
-
-open class PageList<T>(override val size: Int, open val results: List<T>) : List<T> {
-
-    override fun contains(element: T): Boolean {
-        return results.contains(element)
-    }
-
-    override fun containsAll(elements: Collection<T>): Boolean {
-        return results.containsAll(elements)
-    }
-
-    override fun get(index: Int): T {
-        return results[index]
-    }
-
-    override fun indexOf(element: T): Int {
-        return results.indexOf(element)
-    }
-
-    override fun isEmpty(): Boolean {
-        return results.isEmpty()
-    }
-
-    override fun iterator(): Iterator<T> {
-        return results.iterator()
-    }
-
-    override fun lastIndexOf(element: T): Int {
-        return results.lastIndexOf(element)
-    }
-
-    override fun listIterator(): ListIterator<T> {
-        return results.listIterator()
-    }
-
-    override fun listIterator(index: Int): ListIterator<T> {
-        return results.listIterator(index)
-    }
-
-    override fun subList(fromIndex: Int, toIndex: Int): List<T> {
-        return results.subList(fromIndex, toIndex)
-    }
-
-
 }
 
 

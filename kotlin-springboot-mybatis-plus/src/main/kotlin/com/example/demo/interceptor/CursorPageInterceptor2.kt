@@ -1,5 +1,7 @@
 package com.example.demo.interceptor
 
+import com.alibaba.fastjson.JSON
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlUtils
 import com.baomidou.mybatisplus.extension.handlers.AbstractSqlParserHandler
 import com.example.demo.model.CursorPage
 import com.example.demo.model.CursorPageQuery
@@ -13,9 +15,13 @@ import org.apache.ibatis.mapping.StatementType
 import org.apache.ibatis.plugin.*
 import org.apache.ibatis.reflection.SystemMetaObject
 import org.apache.ibatis.session.ResultHandler
+import org.springframework.validation.BindingResultUtils
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl
 import java.lang.reflect.Method
 import java.sql.Statement
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 /**
@@ -51,10 +57,17 @@ class CursorPageInterceptor2 : Interceptor, AbstractSqlParserHandler() {
         }
         val execMethod = getMethod(mappedStatement)
         if (execMethod.returnType.name === CursorPage::class.java.name) {
-//            val resultList ArrayList<>()
+            val resultList = ArrayList<Any>()
             val resultSet = statement.resultSet
-            metaObject.setValue("mappedStatement.resultMaps[0].type.name",CursorPage::class.java.name)
-            return CursorPage("",0,"",false,Collections.EMPTY_LIST)
+            while (resultSet.next()) {
+                val map = HashMap<String, Any>(resultSet.metaData.columnCount)
+                for (i in 1..resultSet.metaData.columnCount) {
+                    map[resultSet.metaData.getColumnName(i)] = resultSet.getObject(i)
+                }
+                val obj = JSON.parseObject<Any>(JSON.toJSONString(map), (execMethod.genericReturnType as ParameterizedTypeImpl).actualTypeArguments[0])
+                resultList.add(obj)
+            }
+            return resultList
         }
         return invocation.proceed()
     }
