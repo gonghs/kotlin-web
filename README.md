@@ -1,4 +1,4 @@
-# kotlinweb系列
+# kotlin-web系列
 - kotlin-springboot   
     [springboot初探和配置文件映射](http://note.youdao.com/noteshare?id=d95654107812bfbdaf8632d40bba947e&sub=2D07504E78764BA9A3FFDD1D778C7A9A)
 - kotlin-springboot-easyOA  
@@ -8,7 +8,7 @@
 - kotlin-springboot-mybatis  
     [mysql连接和mybatis引入]()
 - kotlin-springboot-mybatis-plus  
-    游标分页实现,核心为是mybatis拦截器修改参数和修改返回类型
+    游标分页实现,核心为mybatis拦截器修改参数和修改返回类型
 - springboot-gradle  
     [kotlin springboot的gradle构建打包示例](http://note.youdao.com/noteshare?id=5d4d80e0f58c0d56c064563db8fcafc7&sub=15FCAB62EB5D4E6B8A3F1D0D99C41C20)
 - kotlin-springboot-collection-validation
