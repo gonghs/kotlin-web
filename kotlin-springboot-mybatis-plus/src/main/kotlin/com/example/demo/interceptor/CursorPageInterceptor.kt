@@ -33,7 +33,7 @@ import java.util.*
 )
 class CursorPageInterceptor : Interceptor, AbstractSqlParserHandler() {
     private val logger = LogFactory.getLog(CursorPageInterceptor::class.java)
-
+    
     override fun setProperties(properties: Properties) {
     }
 
@@ -51,6 +51,7 @@ class CursorPageInterceptor : Interceptor, AbstractSqlParserHandler() {
         val resultHandler = args[3] as ResultHandler<*>?
         val paramObj = args[1]
         // 判断参数里是否有page对象
+
         var cursorPageQuery: CursorPageQuery? = null
         if (paramObj is CursorPageQuery) {
             cursorPageQuery = paramObj
