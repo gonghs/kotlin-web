@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+    hello websocket
+    <script>
+        let socket;
+        if (!WebSocket) {
+            console.log("您的浏览器不支持WebSocket");
+        }
+        socket = new WebSocket("ws://localhost:8080/websocket/maple");
+        socket.onopen = () => console.log("socket已打开");
+        socket.onmessage = (msg) => console.log(msg);
+        socket.onclose = () => console.log("socket已关闭");
+        socket.onerror = () => console.log("socket发生异常")
+    </script>
+</body>
+</html>
