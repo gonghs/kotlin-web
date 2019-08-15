@@ -1,13 +1,16 @@
 package com.maple.kotlinspringboot.utils
 
 import com.maple.kotlinspringboot.BaseTest
+import com.maple.kotlinspringboot.entity.ResultObj
 import com.maple.kotlinspringboot.entity.User
+import org.junit.After
+import org.junit.Assert
 import org.junit.Test
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 
 /**
- * TODO
+ * redis 工具测试类
  *
  * @author maple
  * @version 1.0
@@ -26,16 +29,20 @@ class RedisUtilsTest : BaseTest() {
         redisUtils.setAny(testKey, "hello")
         val str = redisUtils.getT<String>(testKey)
         log.info("---打印值:$str---")
-        redisUtils.delete(testKey)
     }
 
     @Test
     fun testAny() {
-        val user = User("maple", "man", 18011111111)
+        val user = ResultObj.success(User("maple", "man", 18011111111))
         log.info("---设置对象---")
         redisUtils.setAny(testKey, user)
-        val testUser = redisUtils.getT<User>(testKey)
+        val testUser = redisUtils.getT<ResultObj<User>>(testKey)
         log.info("---打印值:$testUser---")
+        Assert.assertEquals(testUser?.data?.username, user.data?.username)
+    }
+
+    @After
+    fun clear() {
         redisUtils.delete(testKey)
     }
 }

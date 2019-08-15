@@ -25,7 +25,7 @@ class RedisTest : BaseTest() {
     @Test
     fun testString() {
         log.info("---设置值---")
-        redisTemplate.opsForValue().set(testKey, "hello")
+        redisTemplate.opsForValue().set(testKey, "你好")
         val str = redisTemplate.opsForValue().get(testKey) as? String
         log.info("---打印值:$str---")
         redisTemplate.delete(testKey)

@@ -22,10 +22,11 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
  * @since 2019-01-02 09:53
  */
 @Configuration
-class RedisConfig{
+class RedisConfig {
 
     @Autowired
     lateinit var redisProperties: RedisProperties
+
     /**
      * 将redisTemplate格式化为string,any格式
      *
@@ -33,14 +34,14 @@ class RedisConfig{
      * @return redisTemplate
      */
     @Bean
-    fun redisTemplate(factory: RedisConnectionFactory):RedisTemplate<String,Any> {
-        val template = RedisTemplate<String,Any>()
+    fun redisTemplate(factory: RedisConnectionFactory): RedisTemplate<String, Any> {
+        val template = RedisTemplate<String, Any>()
         template.setConnectionFactory(factory)
 //        val hessianRedisSerializer = HessianRedisSerializer(Any::class.java)
 //        var javaRedisSerializer = JavaRedisSerializer<Any>()
-        var fastJsonRedisSerializer = FastJsonRedisSerializer(Any::class.java)
+        val fastJsonRedisSerializer = FastJsonRedisSerializer(Any::class.java)
         //配置白名单
-        ParserConfig.getGlobalInstance().addAccept("com.maple.kotlinspringboot.entity.User")
+        ParserConfig.getGlobalInstance().addAccept("com.maple.kotlinspringboot.entity")
         //或者直接关闭这个检测
 //        ParserConfig.getGlobalInstance().isAutoTypeSupport = true
         val stringRedisSerializer = StringRedisSerializer()

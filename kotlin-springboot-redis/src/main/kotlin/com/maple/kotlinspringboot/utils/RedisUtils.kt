@@ -24,9 +24,9 @@ class RedisUtils {
      * @param key 键
      * @return any 值对象
      */
-    fun <T : Any> getT(key: String):T? {
+    fun <T : Any> getT(key: String): T? {
         @Suppress("UNCHECKED_CAST")
-        return  redisTemplate.opsForValue().get(key) as? T
+        return redisTemplate.opsForValue().get(key) as? T
     }
 
     /**
@@ -36,9 +36,8 @@ class RedisUtils {
      * @param key 键
      * @return any 值对象
      */
-    fun getLong(key: String):Long?{
-        val value = getAny(key)
-        return when(value){
+    fun getLong(key: String): Long? {
+        return when (val value = getAny(key)) {
             is Byte -> value.toLong()
             is Int -> value.toLong()
             is Long -> value
@@ -56,9 +55,8 @@ class RedisUtils {
      * @param key 键
      * @return any 值对象
      */
-    fun getInt(key: String):Int?{
-        val value = getAny(key)
-        return when(value){
+    fun getInt(key: String): Int? {
+        return when (val value = getAny(key)) {
             is Byte -> value.toInt()
             is Int -> value
             is Long -> value.toInt()
@@ -77,8 +75,8 @@ class RedisUtils {
      * @param value 值对象
      * @return Boolean 是否成功
      */
-    fun setAny(key:String,value:Any) {
-        redisTemplate.opsForValue().set(key,value)
+    fun setAny(key: String, value: Any) {
+        redisTemplate.opsForValue().set(key, value)
     }
 
     /**
@@ -87,7 +85,7 @@ class RedisUtils {
      * @param key 键
      * @return Boolean 是否成功
      */
-    fun delete(key:String):Boolean {
+    fun delete(key: String): Boolean {
         return redisTemplate.delete(key)
     }
 
@@ -97,7 +95,7 @@ class RedisUtils {
      * @param key 键
      * @return any 值对象
      */
-    private fun getAny(key: String):Any? {
+    private fun getAny(key: String): Any? {
         return redisTemplate.opsForValue().get(key)
     }
 }
