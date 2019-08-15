@@ -5,17 +5,24 @@
     <title>index</title>
 </head>
 <body>
-    hello websocket
+    hello websocket<hr/>
+    <button onclick="send()">发送消息</button>
+    <label for="message">消息内容: </label><input title="message" type="text" id="message">
     <script>
         let socket;
         if (!WebSocket) {
             console.log("您的浏览器不支持WebSocket");
         }
-        socket = new WebSocket("ws://localhost:8080/websocket/maple");
+        socket = new WebSocket("ws://139.155.154.105");
         socket.onopen = () => console.log("socket已打开");
-        socket.onmessage = (msg) => console.log(msg);
+        socket.onmessage = (msg) => console.log(msg.data);
         socket.onclose = () => console.log("socket已关闭");
-        socket.onerror = () => console.log("socket发生异常")
+        socket.onerror = () => console.log("socket发生异常");
+        
+        function send() {
+            let message = document.getElementById("message").value;
+            socket.send(message);
+        }
     </script>
 </body>
 </html>

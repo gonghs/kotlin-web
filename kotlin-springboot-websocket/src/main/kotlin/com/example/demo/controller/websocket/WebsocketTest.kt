@@ -13,7 +13,7 @@ import javax.websocket.server.ServerEndpoint
  * @version 1.0
  * @since 2019-08-08 15:37
  */
-@ServerEndpoint("/websocket/{sid}")
+@ServerEndpoint("/")
 @Component
 class WebsocketTest {
     private val log = LoggerFactory.getLogger(this.javaClass)
@@ -21,19 +21,18 @@ class WebsocketTest {
      * 存储会话信息
      */
     private val session: ThreadLocal<Session> = ThreadLocal.withInitial { null }
-    private var sid = ""
+
     @OnOpen
-    fun onOpen(session: Session, @PathParam("sid") sid: String) {
+    fun onOpen(session: Session) {
         this.session.set(session)
-        this.sid = sid
         log.info("建立连接")
         sendMessage2Client("建立连接")
     }
 
     @OnMessage
     fun onMessage(session: Session, message: String) {
-        log.info("收到来自${sid}的消息: $message")
-        sendMessage2Client("收到来自${sid}的消息: $message")
+        log.info("收到消息: $message")
+        sendMessage2Client("收到消息: $message", session)
     }
 
     @OnClose
@@ -44,10 +43,10 @@ class WebsocketTest {
 
     @OnError
     fun onError(session: Session, throwable: Throwable) {
-        log.error("${sid}发生错误", throwable)
+        log.error("发生错误", throwable)
     }
 
-    private fun sendMessage2Client(message: String) {
-        this.session.get()?.basicRemote?.sendText(message)
+    private fun sendMessage2Client(message: String, session: Session? = this.session.get()) {
+        session?.basicRemote?.sendText(message)
     }
 }
