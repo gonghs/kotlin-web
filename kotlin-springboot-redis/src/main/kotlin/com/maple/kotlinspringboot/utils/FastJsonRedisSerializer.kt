@@ -15,10 +15,10 @@ import java.nio.charset.Charset
  * @since 2019-01-09 20:58
  */
 class FastJsonRedisSerializer<T>(private val clazz:Class<T> ) : RedisSerializer<T>{
-    private val charset = Charset.forName("utf-8")!!
+    private val charset = Charset.forName("utf-8")
 
     override fun serialize(t: T?): ByteArray? {
-        return JSON.toJSONString(t, SerializerFeature.WriteClassName).toByteArray(charset)
+        return JSON.toJSONBytes(t, SerializerFeature.WriteClassName)
     }
 
     override fun deserialize(bt: ByteArray?): T? {
