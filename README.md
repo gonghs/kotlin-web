@@ -13,4 +13,5 @@
     [kotlin springboot的gradle构建打包示例](http://note.youdao.com/noteshare?id=5d4d80e0f58c0d56c064563db8fcafc7&sub=15FCAB62EB5D4E6B8A3F1D0D99C41C20)
 - kotlin-springboot-collection-validation  
     [springboot处理集合类型校验](http://note.youdao.com/noteshare?id=ef1103292163f28ea6045c0fef0e3245&sub=823D92784C794E88AE35BF98EDF9BA47)
-    
+- kotlin-springboot-user-context-inject  
+    [springboot用户上下文注入](http://note.youdao.com/noteshare?id=c629bd87c63bf37c478eda80ba4a54f9&sub=76B2CFDC7A914BE4AF1AB7D8B4BADA64)
