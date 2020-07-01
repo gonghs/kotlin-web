@@ -21,7 +21,7 @@
         <hessian.vesion>4.0.51</hessian.vesion>
         <fast-json.vesion>1.2.54</fast-json.vesion>
         <redisson.version>3.10.0</redisson.version>
-        <mysql.version>8.0.13</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <mybatis.version>1.3.2</mybatis.version>
     </properties>
 
